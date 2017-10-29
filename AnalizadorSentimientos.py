@@ -1,3 +1,7 @@
+# Analizador de Sentimientos - Twitter
+# @Author: Marcos J. Peña Pollastri
+# Pequeño script para realizar busqueda de topicos y hacer un análisis de sentimientos
+
 import tweepy
 from textblob import TextBlob
 
