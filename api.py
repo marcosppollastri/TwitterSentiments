@@ -10,7 +10,7 @@ accessTokenSecret = '1OLC1y9GcBreXsdviUUOwh5kjSSyQ1iira4SXNdtfo46G'
 auth = tweepy.OAuthHandler(consumerKey, consumerSecret)
 auth.set_access_token(accessToken, accessTokenSecret)
 
-api = tweepy.API(auth)
+api = tweepy.API(auth, wait_on_rate_limit=True)
 
 #os.system("x-terminal-emulator -e /bin/bash")
 
@@ -18,7 +18,11 @@ print("----Analizador de sentimientos----\n")
 print("Bienvenido al analizador de sentimientos!")
 
 busqueda = input('\nIngrese una busqueda:\n\n')
-publicTweets = api.search(busqueda)
+
+#count = cantidad de tweets
+#lang = idioma según ISO 639-1
+#showuser = supuestamente es para mostrar los usuarios pero no funca
+publicTweets = api.search(busqueda, count=10000, lang='es', show_user='True')
 
 acumulador = 0
 contador = 0
@@ -26,11 +30,20 @@ contador = 0
 for tweet in publicTweets:
 
     contador = contador + 1
-    print(tweet.text)
+
+    #print(tweet.text)
     analisis = TextBlob(tweet.text)
-    print(analisis.sentiment)
+
+    #   para filtrar si se quiere mostrar solo tweets negativos
+    #   positivos o lo que se quiera. Modificar el if
+    #if analisis.sentiment.polarity < 0:
+    if True:
+        print(tweet.text)
+        print(analisis.sentiment)
+        print('\n')
+
     acumulador = acumulador + analisis.sentiment.polarity
-    print('\n')
+
 
 promedio = acumulador/contador
 print("El promedio de polaridad es: ")
@@ -41,3 +54,4 @@ if promedio == 0:
     print('\nEl sentimiento acerca del tema es NEUTRO')
 if promedio > 0:
     print('\nEl sentimiento acerca del tema es POSITIVO')
+#print('Cantidad de tweet\'s: ' . contador)
